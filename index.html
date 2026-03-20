@@ -6,6 +6,7 @@
 <title>Park Rave 005 — Bicycle Day Banger Part Two</title>
 <meta name="description" content="Park Rave 005 returns Sunday, April 19, 2026. Free with RSVP. Multigenre sounds, multiple stages, family friendly energy, vendors, and Bicycle Day vibes.">
 <meta name="theme-color" content="#0a0008">
+<link rel="preload" as="image" href="park-rave-005-flyer.png">
 <style>
 :root {
   --bg: #0a0008;
@@ -248,6 +249,14 @@ button:focus-visible {
   border: 1px solid rgba(255,255,255,0.12);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
 }
+.poster-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.34);
+}
 .poster-note {
   margin: 14px 0 0;
   color: var(--muted);
@@ -407,21 +416,6 @@ button:focus-visible {
   font-size: 0.84rem;
   line-height: 1.6;
 }
-.icon-stack {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 12px;
-}
-.motif-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 96px;
-  border-radius: 18px;
-  background: rgba(0,0,0,0.16);
-  border: 1px solid rgba(255,255,255,0.08);
-}
 svg { display: block; }
 @keyframes titlePulse {
   0%, 100% { transform: rotate(-1.2deg) scale(1); }
@@ -491,65 +485,10 @@ svg { display: block; }
           </div>
         </div>
 
-        <aside class="poster-panel" aria-label="Event art panel">
-          <svg viewBox="0 0 360 280" role="img" aria-labelledby="artTitle artDesc">
-            <title id="artTitle">Psychedelic Bicycle Day event art</title>
-            <desc id="artDesc">A bike wheel, stars, mushrooms, smiley face, and peace sign rendered in bright rave colors.</desc>
-            <defs>
-              <linearGradient id="wheelGlow" x1="0" x2="1">
-                <stop offset="0%" stop-color="#FFE000"></stop>
-                <stop offset="100%" stop-color="#FF2D78"></stop>
-              </linearGradient>
-            </defs>
-            <circle cx="246" cy="88" r="52" fill="none" stroke="url(#wheelGlow)" stroke-width="8"></circle>
-            <circle cx="246" cy="88" r="8" fill="#39FF14"></circle>
-            <g stroke="#FFE000" stroke-width="3">
-              <line x1="246" y1="36" x2="246" y2="140"></line>
-              <line x1="194" y1="88" x2="298" y2="88"></line>
-              <line x1="209" y1="51" x2="283" y2="125"></line>
-              <line x1="283" y1="51" x2="209" y2="125"></line>
-            </g>
-            <path d="M180 112 L222 82 L246 88 L216 130 Z" fill="none" stroke="#39FF14" stroke-width="6" stroke-linejoin="round"></path>
-            <circle cx="146" cy="208" r="38" fill="none" stroke="#9B30FF" stroke-width="8"></circle>
-            <circle cx="120" cy="154" r="22" fill="#FFE000"></circle>
-            <circle cx="112" cy="148" r="4" fill="#0a0008"></circle>
-            <circle cx="128" cy="148" r="4" fill="#0a0008"></circle>
-            <path d="M111 161 Q120 171 129 161" fill="none" stroke="#0a0008" stroke-width="4" stroke-linecap="round"></path>
-            <path d="M42 198 C46 166 84 166 88 198" fill="#FF2D78"></path>
-            <path d="M60 156 C44 140 24 152 24 174 C24 194 38 204 50 204 L70 204 C82 204 96 194 96 174 C96 152 76 140 60 156 Z" fill="#FF6A00" stroke="#FFE000" stroke-width="4"></path>
-            <circle cx="50" cy="174" r="4" fill="#fff8d6"></circle>
-            <circle cx="70" cy="174" r="4" fill="#fff8d6"></circle>
-            <path d="M49 187 Q60 194 71 187" fill="none" stroke="#fff8d6" stroke-width="3" stroke-linecap="round"></path>
-            <circle cx="306" cy="204" r="22" fill="none" stroke="#39FF14" stroke-width="6"></circle>
-            <line x1="306" y1="186" x2="306" y2="222" stroke="#39FF14" stroke-width="6" stroke-linecap="round"></line>
-            <line x1="288" y1="204" x2="324" y2="204" stroke="#39FF14" stroke-width="6" stroke-linecap="round"></line>
-            <g fill="#FFE000">
-              <path d="M152 32 L158 48 L174 54 L158 60 L152 76 L146 60 L130 54 L146 48 Z"></path>
-              <path d="M84 52 L88 62 L98 66 L88 70 L84 80 L80 70 L70 66 L80 62 Z"></path>
-              <path d="M324 34 L328 44 L338 48 L328 52 L324 62 L320 52 L310 48 L320 44 Z"></path>
-            </g>
-          </svg>
+        <aside class="poster-panel" aria-label="Official event flyer">
+          <img class="poster-image" src="park-rave-005-flyer.png" alt="Official Park Rave 005 flyer showing the event name, Bicycle Day Banger Part Two branding, free RSVP messaging, and the April 19, 2026 date.">
           <div class="poster-caption">Double dose deluxe edition</div>
           <p class="poster-note">Lineup and exact location are still under wraps. RSVP now, keep your bike ready, and watch the Linktree for the drop.</p>
-          <div class="icon-stack" aria-hidden="true">
-            <div class="motif-card">
-              <svg viewBox="0 0 80 80" width="64" height="64">
-                <circle cx="40" cy="40" r="28" fill="#FFE000"></circle>
-                <circle cx="31" cy="34" r="4" fill="#0a0008"></circle>
-                <circle cx="49" cy="34" r="4" fill="#0a0008"></circle>
-                <path d="M28 48 Q40 60 52 48" fill="none" stroke="#0a0008" stroke-width="4" stroke-linecap="round"></path>
-              </svg>
-            </div>
-            <div class="motif-card">
-              <svg viewBox="0 0 80 80" width="64" height="64">
-                <circle cx="40" cy="40" r="24" fill="none" stroke="#9B30FF" stroke-width="6"></circle>
-                <line x1="40" y1="16" x2="40" y2="64" stroke="#9B30FF" stroke-width="6" stroke-linecap="round"></line>
-                <line x1="16" y1="40" x2="64" y2="40" stroke="#9B30FF" stroke-width="6" stroke-linecap="round"></line>
-                <path d="M23 23 L57 57" stroke="#9B30FF" stroke-width="6" stroke-linecap="round"></path>
-                <path d="M57 23 L23 57" stroke="#9B30FF" stroke-width="6" stroke-linecap="round"></path>
-              </svg>
-            </div>
-          </div>
         </aside>
       </div>
     </section>
