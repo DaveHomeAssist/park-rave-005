@@ -763,6 +763,274 @@
     }
 
     /* ================================================================
+       MICROINTERACTIONS
+    ================================================================ */
+    /* Press: scale + color shift — all interactive targets */
+    .cta-btn:active,
+    .cta-card:active,
+    .spotify-card:active,
+    .gear-card:active,
+    .merch-card:active,
+    .footer-social:active {
+      transform: scale(0.95) !important;
+      transition-duration: 80ms !important;
+    }
+
+    .cta-primary:active {
+      background: #00e07a;
+      box-shadow: 0 0 12px var(--neon-glow);
+    }
+
+    .cta-amber:active {
+      background: #e05e00;
+      box-shadow: 0 0 12px var(--amber-glow);
+    }
+
+    .cta-outline:active {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hover: border glow affordance — cards */
+    .cta-card {
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.18s ease,
+                  border-color 0.18s ease;
+    }
+    .spotify-card {
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.18s ease,
+                  border-color 0.18s ease;
+    }
+    .gear-card {
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.18s ease,
+                  border-color 0.18s ease;
+    }
+    .merch-card {
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.18s ease;
+    }
+    .footer-social {
+      transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.18s ease,
+                  box-shadow 0.18s ease;
+    }
+
+    /* CTA buttons: tighter easing */
+    .cta-btn {
+      transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.18s ease,
+                  background-color 0.12s ease;
+    }
+
+    /* Countdown tick flash */
+    .countdown-num.tick {
+      text-shadow: 0 0 20px var(--neon-glow), 0 0 40px rgba(0, 255, 136, 0.2);
+      transition: text-shadow 0.1s ease;
+    }
+
+    /* Spotify play button press */
+    .spotify-play:active {
+      transform: scale(0.88);
+      background: #1aad4d;
+      transition-duration: 80ms;
+    }
+
+    /* Focus ring for keyboard nav */
+    .cta-btn:focus-visible,
+    .cta-card:focus-visible,
+    .spotify-card:focus-visible,
+    .footer-social:focus-visible {
+      outline: 2px solid var(--neon);
+      outline-offset: 3px;
+    }
+
+    /* Success ripple (applied via JS) */
+    @keyframes tapRipple {
+      0% { box-shadow: 0 0 0 0 var(--neon-glow); }
+      100% { box-shadow: 0 0 0 18px rgba(0, 255, 136, 0); }
+    }
+    .ripple {
+      animation: tapRipple 0.35s ease-out;
+    }
+
+    /* Error shake (defensive — for future form inputs) */
+    @keyframes microShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      60% { transform: translateX(-3px); }
+      80% { transform: translateX(2px); }
+    }
+    .shake {
+      animation: microShake 0.3s ease;
+    }
+
+    /* ================================================================
+       ANTICIPATORY UX
+    ================================================================ */
+    /* Event state swap */
+    .event-state { margin-top: 12px; }
+    .event-state[hidden] { display: none; }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 50px;
+      background: var(--magenta);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+    .live-badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      animation: liveDot 1.5s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 45, 123, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(255, 45, 123, 0.6); }
+    }
+    @keyframes liveDot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Urgency badge */
+    .urgency-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+    }
+    .urgency-badge[hidden] { display: none; }
+    .urgency-badge.is-week {
+      color: var(--amber);
+      border: 1px solid rgba(255, 106, 0, 0.3);
+      background: rgba(255, 106, 0, 0.08);
+    }
+    .urgency-badge.is-tomorrow {
+      color: var(--magenta);
+      border: 1px solid rgba(255, 45, 123, 0.4);
+      background: rgba(255, 45, 123, 0.1);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+
+    /* Calendar toast */
+    .cal-toast {
+      position: fixed;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 50px;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--neon-dim);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      z-index: 100;
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+      white-space: nowrap;
+    }
+    .cal-toast[hidden] { display: none; }
+    .cal-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .cal-toast-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--neon);
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), background 0.12s ease;
+    }
+    .cal-toast-btn:active { transform: scale(0.92); background: #00e07a; }
+    .cal-toast-close {
+      background: none; border: none;
+      color: var(--text-dim); font-size: 1.2rem;
+      cursor: pointer; padding: 0 4px; line-height: 1;
+      transition: color 0.15s;
+    }
+    .cal-toast-close:hover { color: var(--text-primary); }
+
+    /* Gear floating pill */
+    .gear-float {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: var(--amber);
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      box-shadow: 0 0 24px var(--amber-glow);
+      z-index: 90;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      text-decoration: none;
+    }
+    .gear-float.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .gear-float:active {
+      transform: scale(0.94);
+      background: #e05e00;
+      transition-duration: 80ms;
+    }
+    .gear-float[hidden] { display: none; }
+
+    /* Merch recalled badge */
+    .merch-card.is-recalled { border-color: var(--neon-dim); }
+    .merch-card.is-recalled::after {
+      content: 'Viewed';
+      position: absolute;
+      top: 8px; right: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--neon);
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid var(--neon-dim);
+    }
+
+    /* Reduced motion: strip all animation */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .cal-toast, .gear-float { transition: none; }
+    }
+
+    /* ================================================================
        RESPONSIVE
     ================================================================ */
     @media (max-width: 480px) {
@@ -840,9 +1108,17 @@
           </div>
         </div>
 
-        <div class="hero-ctas">
-          <a class="cta-btn cta-primary" href="https://www.instagram.com/p/DWSLujlEf-s" target="_blank" rel="noopener">FREE RSVP</a>
+        <div id="urgencyBadge" class="urgency-badge" hidden></div>
+
+        <div class="hero-ctas" id="heroCtas">
+          <a class="cta-btn cta-primary" id="rsvpBtn" href="https://www.instagram.com/p/DWSLujlEf-s" target="_blank" rel="noopener">FREE RSVP</a>
           <a class="cta-btn cta-outline" href="#vendor-form" target="_blank" rel="noopener">VENDOR APPLICATION</a>
+        </div>
+        <div class="event-state" id="eventStateLive" hidden>
+          <span class="live-badge">HAPPENING NOW</span>
+        </div>
+        <div class="event-state" id="eventStatePast" hidden>
+          <a class="cta-btn cta-primary" href="https://www.youtube.com/@NoNonsensePHL" target="_blank" rel="noopener">VIEW RECAP</a>
         </div>
       </div>
     </div>
@@ -986,6 +1262,14 @@
     </div>
   </section>
 
+  <!-- Calendar toast + Gear float -->
+  <div class="cal-toast" id="calToast" hidden>
+    <span>RSVP'd? Don't miss it.</span>
+    <button class="cal-toast-btn" id="calDownload" type="button">Add to Calendar</button>
+    <button class="cal-toast-close" id="calDismiss" type="button" aria-label="Dismiss">&times;</button>
+  </div>
+  <a class="gear-float" id="gearFloat" href="mailto:nononsensephl@gmail.com?subject=Rental%20Inquiry" hidden>Need a quote?</a>
+
   <!-- ============================================================
        FOOTER
   ============================================================ -->
@@ -1012,46 +1296,273 @@
        JAVASCRIPT
   ============================================================ -->
   <script>
-    // --- Countdown timer to April 19, 2026 ---
-    const eventDate = new Date('2026-04-19T14:00:00-04:00').getTime();
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function updateCountdown() {
-      const now = Date.now();
-      const diff = eventDate - now;
+      /* ---- Countdown + Event State ---- */
+      const eventDate = new Date('2026-04-19T14:00:00-04:00').getTime();
+      const eventEnd = eventDate + (10 * 60 * 60 * 1000); // assume 10hr event
+      const cdDays = document.getElementById('cd-days');
+      const cdHours = document.getElementById('cd-hours');
+      const cdMins = document.getElementById('cd-mins');
+      const cdSecs = document.getElementById('cd-secs');
+      const heroCtas = document.getElementById('heroCtas');
+      const stateLive = document.getElementById('eventStateLive');
+      const statePast = document.getElementById('eventStatePast');
+      const urgencyBadge = document.getElementById('urgencyBadge');
+      let prevSecs = -1;
 
-      if (diff <= 0) {
-        document.getElementById('cd-days').textContent = '0';
-        document.getElementById('cd-hours').textContent = '0';
-        document.getElementById('cd-mins').textContent = '0';
-        document.getElementById('cd-secs').textContent = '0';
-        return;
+      function updateCountdown() {
+        const now = Date.now();
+        const diff = eventDate - now;
+
+        // Event state swap
+        if (now >= eventEnd) {
+          // Past
+          heroCtas.hidden = true;
+          stateLive.hidden = true;
+          statePast.hidden = false;
+          document.getElementById('countdown').hidden = true;
+          if (urgencyBadge) urgencyBadge.hidden = true;
+          return;
+        }
+        if (now >= eventDate) {
+          // Live
+          heroCtas.hidden = true;
+          stateLive.hidden = false;
+          statePast.hidden = true;
+          document.getElementById('countdown').hidden = true;
+          if (urgencyBadge) urgencyBadge.hidden = true;
+          return;
+        }
+
+        // Urgency badge
+        const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        if (urgencyBadge) {
+          if (daysLeft <= 1) {
+            urgencyBadge.textContent = 'TOMORROW';
+            urgencyBadge.className = 'urgency-badge is-tomorrow';
+            urgencyBadge.hidden = false;
+          } else if (daysLeft <= 7) {
+            urgencyBadge.textContent = 'THIS WEEK';
+            urgencyBadge.className = 'urgency-badge is-week';
+            urgencyBadge.hidden = false;
+          } else {
+            urgencyBadge.hidden = true;
+          }
+        }
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        cdDays.textContent = d;
+        cdHours.textContent = String(h).padStart(2, '0');
+        cdMins.textContent = String(m).padStart(2, '0');
+        cdSecs.textContent = String(s).padStart(2, '0');
+
+        // Tick flash on seconds change
+        if (!reduceMotion && s !== prevSecs) {
+          cdSecs.classList.add('tick');
+          setTimeout(() => cdSecs.classList.remove('tick'), 150);
+        }
+        prevSecs = s;
       }
 
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
 
-      document.getElementById('cd-days').textContent = d;
-      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
-      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
-      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
-    }
+      /* ---- Scroll Reveal ---- */
+      const revealEls = document.querySelectorAll('.reveal, .reveal-children');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach(el => revealObserver.observe(el));
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+      /* ---- Tap Ripple (success feedback) ---- */
+      if (!reduceMotion) {
+        document.querySelectorAll('.cta-btn, .cta-card, .footer-social').forEach(el => {
+          el.addEventListener('click', function () {
+            this.classList.remove('ripple');
+            void this.offsetWidth; // reflow
+            this.classList.add('ripple');
+            setTimeout(() => this.classList.remove('ripple'), 350);
+          });
+        });
+      }
 
-    // --- Scroll reveal ---
-    const revealEls = document.querySelectorAll('.reveal, .reveal-children');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+      /* ---- RSVP → Calendar Toast ---- */
+      const rsvpBtn = document.getElementById('rsvpBtn');
+      const calToast = document.getElementById('calToast');
+      const calDownload = document.getElementById('calDownload');
+      const calDismiss = document.getElementById('calDismiss');
+      const storeKey = 'nnphl:park-rave-005';
+
+      function loadStore() {
+        try {
+          const raw = localStorage.getItem(storeKey);
+          if (!raw) return {};
+          const d = JSON.parse(raw);
+          if (d.v !== 1) { localStorage.removeItem(storeKey); return {}; }
+          if (d.visits && Date.now() - d.visits.last > 90 * 24 * 60 * 60 * 1000) {
+            localStorage.removeItem(storeKey);
+            return {};
+          }
+          return d;
+        } catch { localStorage.removeItem(storeKey); return {}; }
+      }
+
+      function saveStore(data) {
+        data.v = 1;
+        localStorage.setItem(storeKey, JSON.stringify(data));
+      }
+
+      // Track visits
+      const store = loadStore();
+      store.visits = store.visits || { count: 0, first: Date.now(), last: 0 };
+      if (Date.now() - (store.visits.last || 0) > 30 * 60 * 1000) {
+        store.visits.count += 1;
+      }
+      store.visits.last = Date.now();
+      saveStore(store);
+
+      // RSVP click → mark and show calendar toast on tab return
+      if (rsvpBtn) {
+        rsvpBtn.addEventListener('click', () => {
+          const s = loadStore();
+          s.rsvp = { clicked: true, clickedAt: Date.now(), calendarDismissed: false };
+          saveStore(s);
+        });
+      }
+
+      function showCalToast() {
+        if (!calToast) return;
+        calToast.hidden = false;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => calToast.classList.add('show'));
+        });
+      }
+
+      function hideCalToast() {
+        if (!calToast) return;
+        calToast.classList.remove('show');
+        setTimeout(() => { calToast.hidden = true; }, 400);
+        const s = loadStore();
+        if (s.rsvp) s.rsvp.calendarDismissed = true;
+        saveStore(s);
+      }
+
+      // Show toast when returning to tab after RSVP click
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible') return;
+        const s = loadStore();
+        if (s.rsvp && s.rsvp.clicked && !s.rsvp.calendarDismissed) {
+          setTimeout(showCalToast, 800);
         }
       });
-    }, { threshold: 0.15 });
 
-    revealEls.forEach(el => observer.observe(el));
+      // Also check on load if RSVP was clicked in a prior session
+      if (store.rsvp && store.rsvp.clicked && !store.rsvp.calendarDismissed) {
+        setTimeout(showCalToast, 2000);
+      }
+
+      if (calDismiss) calDismiss.addEventListener('click', hideCalToast);
+
+      // Generate .ics and download
+      if (calDownload) {
+        calDownload.addEventListener('click', () => {
+          const ics = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//NoNonsensePHL//ParkRave005//EN',
+            'BEGIN:VEVENT',
+            'DTSTART:20260419T180000Z',
+            'DTEND:20260420T040000Z',
+            'SUMMARY:Park Rave 005 — No Nonsense PHL',
+            'DESCRIPTION:2 Stages. Multi-Genre. FREE. https://www.instagram.com/nononsensephl',
+            'LOCATION:Philadelphia\\, PA',
+            'END:VEVENT',
+            'END:VCALENDAR'
+          ].join('\r\n');
+          const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'park-rave-005.ics';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+
+          // Success feedback
+          calDownload.textContent = 'Added!';
+          calDownload.classList.add('ripple');
+          setTimeout(() => {
+            calDownload.classList.remove('ripple');
+            hideCalToast();
+          }, 1200);
+        });
+      }
+
+      /* ---- Gear Float Pill ---- */
+      const gearFloat = document.getElementById('gearFloat');
+      const gearSection = document.querySelector('.zone-gear');
+      if (gearFloat && gearSection) {
+        const gearObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            gearFloat.hidden = false;
+            if (entry.isIntersecting) {
+              gearFloat.classList.add('show');
+            } else {
+              gearFloat.classList.remove('show');
+            }
+          });
+        }, { threshold: 0.2 });
+        gearObserver.observe(gearSection);
+      }
+
+      /* ---- Merch View Tracking ---- */
+      const merchCards = document.querySelectorAll('.merch-card');
+      merchCards.forEach(card => {
+        const name = card.querySelector('.merch-card-name');
+        if (!name) return;
+        const slug = name.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+        card.dataset.merchSlug = slug;
+
+        card.addEventListener('click', () => {
+          const s = loadStore();
+          s.merch = s.merch || { viewed: [], lastViewedAt: 0 };
+          if (!s.merch.viewed.includes(slug)) {
+            s.merch.viewed.push(slug);
+            if (s.merch.viewed.length > 10) s.merch.viewed.shift();
+          }
+          s.merch.lastViewedAt = Date.now();
+          saveStore(s);
+          card.classList.add('is-recalled');
+        });
+      });
+
+      // Restore recalled merch on load
+      if (store.merch && store.merch.viewed && store.merch.viewed.length) {
+        merchCards.forEach(card => {
+          if (store.merch.viewed.includes(card.dataset.merchSlug)) {
+            card.classList.add('is-recalled');
+          }
+        });
+      }
+
+      /* ---- Night Mode Glow Boost ---- */
+      if (!reduceMotion) {
+        const hour = new Date().getHours();
+        if (hour >= 22 || hour < 4) {
+          document.documentElement.style.setProperty('--neon-glow', 'rgba(0, 255, 136, 0.5)');
+          document.documentElement.style.setProperty('--amber-glow', 'rgba(255, 106, 0, 0.45)');
+        }
+      }
+    })();
   </script>
 </body>
 </html>
