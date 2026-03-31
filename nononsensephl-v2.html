@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Nonsense PHL — Philadelphia Production Collective</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       RESET & VARIABLES
+    ================================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-black: #05000a;
+      --bg-zone-1: #08000f;
+      --bg-zone-2: #0a0012;
+      --bg-zone-3: #060010;
+      --bg-zone-4: #0a000d;
+      --neon: #00ff88;
+      --neon-glow: rgba(0, 255, 136, 0.35);
+      --neon-dim: rgba(0, 255, 136, 0.12);
+      --amber: #ff6a00;
+      --amber-glow: rgba(255, 106, 0, 0.3);
+      --magenta: #ff2d7b;
+      --text-primary: #ede6f5;
+      --text-secondary: #9a8bb0;
+      --text-dim: #5a4d6e;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-border: rgba(255, 255, 255, 0.06);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-black);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Noise overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ================================================================
+       GLOBAL: Section reveal animation
+    ================================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .reveal-children > * {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal-children.visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+    .reveal-children.visible > *:nth-child(2) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
+    .reveal-children.visible > *:nth-child(3) { transition-delay: 0.19s; opacity: 1; transform: translateY(0); }
+    .reveal-children.visible > *:nth-child(4) { transition-delay: 0.26s; opacity: 1; transform: translateY(0); }
+    .reveal-children.visible > *:nth-child(5) { transition-delay: 0.33s; opacity: 1; transform: translateY(0); }
+    .reveal-children.visible > *:nth-child(6) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+
+    /* ================================================================
+       ZONE 1: HERO / EVENTS
+    ================================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 0 48px;
+      overflow: hidden;
+      background: var(--bg-zone-1);
+    }
+
+    /* Ambient sweep — slow hue-shifting glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(255, 106, 0, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(255, 45, 123, 0.06) 0%, transparent 50%);
+      animation: ambientSweep 12s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes ambientSweep {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(3%, -3%) scale(1.05); }
+    }
+
+    /* Event banner image — fills hero */
+    .hero-banner {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+    }
+
+    /* Scan-line overlay */
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* Gradient fade at bottom */
+    .hero-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(to top, var(--bg-zone-1) 0%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Profile + event info overlay */
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      padding: 0 24px;
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .hero-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--neon);
+      box-shadow: 0 0 20px var(--neon-glow);
+      flex-shrink: 0;
+    }
+
+    .hero-profile-text h1 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .hero-profile-text p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    /* Event card */
+    .hero-event {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 106, 0, 0.15);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-event::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    }
+
+    .event-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--amber);
+      margin-bottom: 10px;
+    }
+
+    .event-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+
+    .event-meta {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .event-meta-item {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .event-meta-item svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+    }
+
+    /* Countdown */
+    .countdown {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .countdown-unit {
+      text-align: center;
+    }
+
+    .countdown-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--neon);
+      text-shadow: 0 0 12px var(--neon-glow);
+    }
+
+    .countdown-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* CTA button */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 50px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .cta-btn:active { transform: scale(0.96); }
+
+    .cta-primary {
+      background: var(--neon);
+      color: #000;
+      box-shadow: 0 0 24px var(--neon-glow), inset 0 0 24px rgba(0,0,0,0.05);
+    }
+
+    .cta-primary:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 40px var(--neon-glow), 0 0 80px rgba(0, 255, 136, 0.15);
+    }
+
+    .cta-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--surface-border);
+    }
+
+    .cta-outline:hover {
+      transform: scale(1.04);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .cta-amber {
+      background: var(--amber);
+      color: #000;
+      box-shadow: 0 0 20px var(--amber-glow);
+    }
+
+    .cta-amber:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 40px var(--amber-glow);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ================================================================
+       MARQUEE — Good Vibes Great Music No Nonsense
+    ================================================================ */
+    .marquee-wrapper {
+      overflow: hidden;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      background: var(--bg-black);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 20s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      padding: 0 32px;
+      color: var(--text-dim);
+      transition: color 0.3s;
+    }
+
+    .marquee-track span .dot {
+      color: var(--neon);
+      margin: 0 16px;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ================================================================
+       ZONE 2: THE COLLECTIVE (Music / Booking)
+    ================================================================ */
+    .zone-collective {
+      background: var(--bg-zone-2);
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle Acidic Dreams background artwork */
+    .zone-collective-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .zone-collective-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.06;
+      filter: blur(2px);
+    }
+
+    .zone-collective .zone-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Section headers */
+    .zone-header {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .zone-sub {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* Spotify card */
+    .spotify-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .spotify-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .spotify-art {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .spotify-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .spotify-track {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .spotify-artist {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .spotify-play {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #1DB954;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .spotify-play:hover { transform: scale(1.1); }
+
+    .spotify-play svg {
+      width: 20px;
+      height: 20px;
+      fill: #000;
+      margin-left: 2px;
+    }
+
+    /* CTA grid for booking/vendor */
+    .cta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 480px) {
+      .cta-grid { grid-template-columns: 1fr; }
+    }
+
+    .cta-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .cta-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .cta-card-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    .cta-card-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .cta-card-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* ================================================================
+       ZONE 3: GEAR (Equipment Rentals)
+    ================================================================ */
+    .zone-gear {
+      background: var(--bg-zone-3);
+      padding: 80px 24px;
+      position: relative;
+    }
+
+    /* Subtle truss pattern */
+    .zone-gear::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 120px, rgba(255,255,255,0.015) 120px, rgba(255,255,255,0.015) 121px),
+        repeating-linear-gradient(0deg, transparent, transparent 120px, rgba(255,255,255,0.015) 120px, rgba(255,255,255,0.015) 121px);
+      pointer-events: none;
+    }
+
+    .zone-gear .zone-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 400px) {
+      .gear-grid { grid-template-columns: 1fr; }
+    }
+
+    .gear-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
+      cursor: default;
+    }
+
+    .gear-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+      border-color: var(--neon-dim);
+    }
+
+    .gear-card-icon {
+      width: 36px;
+      height: 36px;
+      margin: 0 auto 12px;
+      color: var(--neon);
+      opacity: 0.7;
+    }
+
+    .gear-card-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .gear-card-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .gear-cta-wrap {
+      text-align: center;
+    }
+
+    /* ================================================================
+       ZONE 4: MERCH
+    ================================================================ */
+    .zone-merch {
+      background: var(--bg-zone-4);
+      padding: 80px 24px;
+    }
+
+    .zone-merch .zone-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+    }
+
+    .merch-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .merch-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+
+    .merch-card-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: #0d0015;
+    }
+
+    .merch-card-info {
+      padding: 14px;
+    }
+
+    .merch-card-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .merch-card-price {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--neon);
+      text-shadow: 0 0 8px var(--neon-glow);
+    }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .site-footer {
+      background: var(--bg-black);
+      padding: 48px 24px 36px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .footer-social {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-primary);
+      transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .footer-social:hover {
+      transform: scale(1.15);
+      border-color: var(--neon);
+      box-shadow: 0 0 16px var(--neon-glow);
+    }
+
+    .footer-social svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .footer-email {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .footer-email a {
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--text-dim);
+      transition: border-color 0.2s;
+    }
+
+    .footer-email a:hover { border-color: var(--neon); }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 480px) {
+      .hero { min-height: 90vh; }
+      .hero-content { padding: 0 16px; }
+      .hero-event { padding: 20px; }
+      .countdown-num { font-size: 1.5rem; }
+      .cta-btn { padding: 12px 28px; font-size: 1rem; }
+      .zone-collective, .zone-gear, .zone-merch { padding: 60px 16px; }
+    }
+
+    @media (min-width: 768px) {
+      .merch-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 1024px) {
+      .merch-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       ZONE 1: HERO / EVENTS
+  ============================================================ -->
+  <section class="hero">
+    <div class="hero-banner">
+      <img src="https://ugc.production.linktr.ee/006562c2-fb2d-4d5c-8c6b-7f82277a37fb_bd26J7-ezgif.com-animated-gif-maker.gif" alt="Park Rave 005 flyer">
+    </div>
+    <div class="hero-fade"></div>
+
+    <div class="hero-content">
+      <div class="hero-profile reveal">
+        <img class="hero-avatar" src="https://ugc.production.linktr.ee/2e5a653e-81bc-4eb1-9235-f9cd05876482_nnc26bw2.png" alt="NoNonsensePHL">
+        <div class="hero-profile-text">
+          <h1>NO NONSENSE PHL</h1>
+          <p>Philadelphia Based Event Organization / Equipment Rental / Production Collective</p>
+        </div>
+      </div>
+
+      <div class="hero-event reveal">
+        <div class="event-label">Next Event</div>
+        <div class="event-title">PARK RAVE 005</div>
+        <div class="event-meta">
+          <span class="event-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            April 19, 2026
+          </span>
+          <span class="event-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            2 Stages &bull; Multi-Genre
+          </span>
+          <span class="event-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            FREE
+          </span>
+        </div>
+
+        <div class="countdown" id="countdown">
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-days">--</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-hours">--</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-mins">--</div>
+            <div class="countdown-label">Mins</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-secs">--</div>
+            <div class="countdown-label">Secs</div>
+          </div>
+        </div>
+
+        <div class="hero-ctas">
+          <a class="cta-btn cta-primary" href="https://www.instagram.com/p/DWSLujlEf-s" target="_blank" rel="noopener">FREE RSVP</a>
+          <a class="cta-btn cta-outline" href="#vendor-form" target="_blank" rel="noopener">VENDOR APPLICATION</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARQUEE
+  ============================================================ -->
+  <div class="marquee-wrapper">
+    <div class="marquee-track" aria-hidden="true">
+      <span>GOOD VIBES<span class="dot">&bull;</span>GREAT MUSIC<span class="dot">&bull;</span>NO NONSENSE</span>
+      <span>GOOD VIBES<span class="dot">&bull;</span>GREAT MUSIC<span class="dot">&bull;</span>NO NONSENSE</span>
+      <span>GOOD VIBES<span class="dot">&bull;</span>GREAT MUSIC<span class="dot">&bull;</span>NO NONSENSE</span>
+      <span>GOOD VIBES<span class="dot">&bull;</span>GREAT MUSIC<span class="dot">&bull;</span>NO NONSENSE</span>
+      <span>GOOD VIBES<span class="dot">&bull;</span>GREAT MUSIC<span class="dot">&bull;</span>NO NONSENSE</span>
+      <span>GOOD VIBES<span class="dot">&bull;</span>GREAT MUSIC<span class="dot">&bull;</span>NO NONSENSE</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ZONE 2: THE COLLECTIVE
+  ============================================================ -->
+  <section class="zone-collective">
+    <div class="zone-collective-bg">
+      <img src="https://ugc.production.linktr.ee/02a58502-41e1-44fa-8c82-315aa64d3142_YouCut-20260315-090610816-ezgif.com-optimize.gif" alt="">
+    </div>
+    <div class="zone-inner">
+      <h2 class="zone-header reveal">THE COLLECTIVE</h2>
+      <p class="zone-sub reveal">Artists, DJs, producers, and weirdos building Philadelphia's underground music scene from the ground up.</p>
+
+      <!-- Spotify card -->
+      <a class="spotify-card reveal" href="https://open.spotify.com/track/2EO3bNmyE6GKPqWOd8AseL" target="_blank" rel="noopener">
+        <img class="spotify-art" src="https://ugc.production.linktr.ee/4fc9107e-4601-4575-8deb-ef1bcfdff10d_ab67616d0000b2730361a35941081843a87a8440.jpeg" alt="Album art">
+        <div class="spotify-info">
+          <div class="spotify-track">ILLIXIR x Acidic Dreams - Welcome Home</div>
+          <div class="spotify-artist">Song &middot; ILLIXIR, Acidic Dreams</div>
+        </div>
+        <div class="spotify-play">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+      </a>
+
+      <!-- Booking / Vendor CTAs -->
+      <div class="cta-grid reveal-children">
+        <a class="cta-card" href="https://docs.google.com/forms/d/e/1FAIpQLSeFl1RRntXdH-XmcX_Z6EGnjTKWAM8N4My2qm0YkgLVRZ2VIw/viewform" target="_blank" rel="noopener">
+          <svg class="cta-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <div class="cta-card-title">ARTIST BOOKING</div>
+          <div class="cta-card-desc">Submit your set for upcoming events</div>
+        </a>
+        <a class="cta-card" href="#vendor-form" target="_blank" rel="noopener">
+          <svg class="cta-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <div class="cta-card-title">VENDOR APPLICATION</div>
+          <div class="cta-card-desc">Set up a booth at our next event</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ZONE 3: GEAR
+  ============================================================ -->
+  <section class="zone-gear">
+    <div class="zone-inner">
+      <h2 class="zone-header reveal">THE GEAR</h2>
+      <p class="zone-sub reveal">Full-service AV equipment rentals for events, venues, and productions across the Philadelphia area.</p>
+
+      <div class="gear-grid reveal-children">
+        <div class="gear-card">
+          <svg class="gear-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="14" r="4"/><line x1="12" y1="6" x2="12.01" y2="6"/></svg>
+          <div class="gear-card-name">SOUND SYSTEMS</div>
+          <div class="gear-card-desc">PA, subs, monitors, mixers</div>
+        </div>
+        <div class="gear-card">
+          <svg class="gear-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="gear-card-name">LIGHTING</div>
+          <div class="gear-card-desc">LEDs, lasers, strobes, DMX</div>
+        </div>
+        <div class="gear-card">
+          <svg class="gear-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+          <div class="gear-card-name">DJ EQUIPMENT</div>
+          <div class="gear-card-desc">CDJs, turntables, controllers</div>
+        </div>
+        <div class="gear-card">
+          <svg class="gear-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+          <div class="gear-card-name">STAGE &amp; TRUSS</div>
+          <div class="gear-card-desc">Staging, truss, rigging</div>
+        </div>
+      </div>
+
+      <div class="gear-cta-wrap reveal">
+        <a class="cta-btn cta-amber" href="#rental-inquiry" target="_blank" rel="noopener">RENTAL INQUIRY FORM</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ZONE 4: MERCH
+  ============================================================ -->
+  <section class="zone-merch">
+    <div class="zone-inner">
+      <h2 class="zone-header reveal">THE MERCH</h2>
+      <p class="zone-sub reveal">Rep the collective.</p>
+
+      <div class="merch-grid reveal-children">
+        <div class="merch-card">
+          <img class="merch-card-img" src="https://ugc.production.linktr.ee/b286e7cd-b584-4918-bcf6-a2fa5a9b2741_20241210-113056.jpeg" alt="ill Graphic Snapbacks">
+          <div class="merch-card-info">
+            <div class="merch-card-name">ill Graphic Snapbacks</div>
+            <div class="merch-card-price">$35</div>
+          </div>
+        </div>
+        <div class="merch-card">
+          <img class="merch-card-img" src="https://ugc.production.linktr.ee/3c4bb0b0-9d3f-43f1-844e-7df56a92c70f_image.png" alt="No Nonsense Collective Official T-Shirt">
+          <div class="merch-card-info">
+            <div class="merch-card-name">Official T-Shirt</div>
+            <div class="merch-card-price">$30</div>
+          </div>
+        </div>
+        <div class="merch-card">
+          <img class="merch-card-img" src="https://ugc.production.linktr.ee/69bcf193-5c8f-41b7-993f-2cf2d486158e_20240925-134451-1.jpeg" alt="ill Full Graphic Hoodie">
+          <div class="merch-card-info">
+            <div class="merch-card-name">ill Full Graphic Hoodie</div>
+            <div class="merch-card-price">$50</div>
+          </div>
+        </div>
+        <div class="merch-card">
+          <img class="merch-card-img" src="https://ugc.production.linktr.ee/afb3f9b6-19a6-46a4-b563-eab4c12e30fe_20240910-181616.jpeg" alt="ill Sweater">
+          <div class="merch-card-info">
+            <div class="merch-card-name">ill Sweater</div>
+            <div class="merch-card-price">$55</div>
+          </div>
+        </div>
+        <div class="merch-card">
+          <img class="merch-card-img" src="https://ugc.production.linktr.ee/6c65fd0e-0d23-4840-a139-76c04961d627_20241002-211829-2.jpeg" alt="ill Beanies">
+          <div class="merch-card-info">
+            <div class="merch-card-name">ill Beanies</div>
+            <div class="merch-card-price">$25</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-brand">NO NONSENSE PHL</div>
+
+    <div class="footer-socials">
+      <a class="footer-social" href="https://instagram.com/nononsensephl" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+      <a class="footer-social" href="https://facebook.com/nononsephl" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a class="footer-social" href="https://www.youtube.com/@NoNonsensePHL" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+    </div>
+
+    <div class="footer-email"><a href="mailto:nononsensephl@gmail.com">nononsensephl@gmail.com</a></div>
+    <div class="footer-copy">&copy; 2026 NO NONSENSE PHL. ALL RIGHTS RESERVED.</div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    // --- Countdown timer to April 19, 2026 ---
+    const eventDate = new Date('2026-04-19T14:00:00-04:00').getTime();
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = eventDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '0';
+        document.getElementById('cd-hours').textContent = '0';
+        document.getElementById('cd-mins').textContent = '0';
+        document.getElementById('cd-secs').textContent = '0';
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent = d;
+      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // --- Scroll reveal ---
+    const revealEls = document.querySelectorAll('.reveal, .reveal-children');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
