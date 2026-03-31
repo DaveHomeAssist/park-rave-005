@@ -602,8 +602,6 @@
     }
 
     .gear-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
       border-color: var(--neon-dim);
     }
 
@@ -760,6 +758,119 @@
       font-size: 0.65rem;
       color: var(--text-dim);
       letter-spacing: 0.05em;
+    }
+
+    /* ================================================================
+       SITE NAV
+    ================================================================ */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      height: 52px;
+      padding: 0 20px;
+      background: rgba(5, 0, 10, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transform: translateY(-100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .site-nav.is-visible {
+      transform: translateY(0);
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      text-decoration: none;
+      margin-right: auto;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-link {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.15s, background-color 0.15s;
+      white-space: nowrap;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .nav-link.is-active {
+      color: var(--neon);
+    }
+    .nav-cta {
+      margin-left: 8px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: var(--neon);
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+      box-shadow: 0 0 12px var(--neon-glow);
+      white-space: nowrap;
+    }
+    .nav-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 24px var(--neon-glow);
+    }
+    .nav-cta:active {
+      transform: scale(0.95);
+      transition-duration: 80ms;
+    }
+
+    @media (max-width: 520px) {
+      .nav-brand { font-size: 0.82rem; }
+      .nav-link { padding: 6px 8px; font-size: 0.62rem; letter-spacing: 0.06em; }
+      .nav-cta { padding: 6px 12px; font-size: 0.68rem; margin-left: 4px; }
+    }
+    @media (max-width: 380px) {
+      .nav-link-text { display: none; }
+      .nav-link { padding: 6px; }
+    }
+
+    /* Zone connector links */
+    .zone-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 24px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .zone-link:hover { color: var(--neon); }
+    .zone-link-wrap { text-align: center; margin-top: 20px; }
+
+    /* Spotify kicker */
+    .spotify-kicker {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #1DB954;
+      margin-bottom: 10px;
     }
 
     /* ================================================================
@@ -1054,9 +1165,23 @@
 <body>
 
   <!-- ============================================================
+       SITE NAV (appears on scroll)
+  ============================================================ -->
+  <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+    <a class="nav-brand" href="#events">NO NONSENSE PHL</a>
+    <div class="nav-links">
+      <a class="nav-link" href="#events" data-nav="events"><span class="nav-link-text">Events</span></a>
+      <a class="nav-link" href="#music" data-nav="music"><span class="nav-link-text">Music</span></a>
+      <a class="nav-link" href="#gear" data-nav="gear"><span class="nav-link-text">Gear</span></a>
+      <a class="nav-link" href="#merch" data-nav="merch"><span class="nav-link-text">Merch</span></a>
+      <a class="nav-cta" href="https://www.instagram.com/p/DWSLujlEf-s" target="_blank" rel="noopener">RSVP</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
        ZONE 1: HERO / EVENTS
   ============================================================ -->
-  <section class="hero">
+  <section class="hero" id="events">
     <div class="hero-banner">
       <img src="https://ugc.production.linktr.ee/006562c2-fb2d-4d5c-8c6b-7f82277a37fb_bd26J7-ezgif.com-animated-gif-maker.gif" alt="Park Rave 005 flyer">
     </div>
@@ -1112,8 +1237,9 @@
 
         <div class="hero-ctas" id="heroCtas">
           <a class="cta-btn cta-primary" id="rsvpBtn" href="https://www.instagram.com/p/DWSLujlEf-s" target="_blank" rel="noopener">FREE RSVP</a>
-          <a class="cta-btn cta-outline" href="#vendor-form" target="_blank" rel="noopener">VENDOR APPLICATION</a>
+          <a class="cta-btn cta-outline" href="https://instagram.com/nononsensephl" target="_blank" rel="noopener">VENDOR APPLICATION</a>
         </div>
+        <a href="#music" class="zone-link">Meet the collective ↓</a>
         <div class="event-state" id="eventStateLive" hidden>
           <span class="live-badge">HAPPENING NOW</span>
         </div>
@@ -1141,7 +1267,7 @@
   <!-- ============================================================
        ZONE 2: THE COLLECTIVE
   ============================================================ -->
-  <section class="zone-collective">
+  <section class="zone-collective" id="music">
     <div class="zone-collective-bg">
       <img src="https://ugc.production.linktr.ee/02a58502-41e1-44fa-8c82-315aa64d3142_YouCut-20260315-090610816-ezgif.com-optimize.gif" alt="">
     </div>
@@ -1150,6 +1276,7 @@
       <p class="zone-sub reveal">Artists, DJs, producers, and weirdos building Philadelphia's underground music scene from the ground up.</p>
 
       <!-- Spotify card -->
+      <div class="spotify-kicker reveal">Now Playing</div>
       <a class="spotify-card reveal" href="https://open.spotify.com/track/2EO3bNmyE6GKPqWOd8AseL" target="_blank" rel="noopener">
         <img class="spotify-art" src="https://ugc.production.linktr.ee/4fc9107e-4601-4575-8deb-ef1bcfdff10d_ab67616d0000b2730361a35941081843a87a8440.jpeg" alt="Album art">
         <div class="spotify-info">
@@ -1168,11 +1295,15 @@
           <div class="cta-card-title">ARTIST BOOKING</div>
           <div class="cta-card-desc">Submit your set for upcoming events</div>
         </a>
-        <a class="cta-card" href="#vendor-form" target="_blank" rel="noopener">
+        <a class="cta-card" href="https://instagram.com/nononsensephl" target="_blank" rel="noopener">
           <svg class="cta-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           <div class="cta-card-title">VENDOR APPLICATION</div>
           <div class="cta-card-desc">Set up a booth at our next event</div>
         </a>
+      </div>
+
+      <div class="zone-link-wrap reveal">
+        <a href="#gear" class="zone-link">Need equipment for your event? ↓</a>
       </div>
     </div>
   </section>
@@ -1180,7 +1311,7 @@
   <!-- ============================================================
        ZONE 3: GEAR
   ============================================================ -->
-  <section class="zone-gear">
+  <section class="zone-gear" id="gear">
     <div class="zone-inner">
       <h2 class="zone-header reveal">THE GEAR</h2>
       <p class="zone-sub reveal">Full-service AV equipment rentals for events, venues, and productions across the Philadelphia area.</p>
@@ -1209,7 +1340,12 @@
       </div>
 
       <div class="gear-cta-wrap reveal">
-        <a class="cta-btn cta-amber" href="#rental-inquiry" target="_blank" rel="noopener">RENTAL INQUIRY FORM</a>
+        <a class="cta-btn cta-amber" href="mailto:nononsensephl@gmail.com?subject=Rental%20Inquiry" target="_blank" rel="noopener">RENTAL INQUIRY</a>
+        <p style="margin-top:10px;font-size:0.72rem;color:var(--text-dim);">We respond within 24 hours.</p>
+      </div>
+
+      <div class="zone-link-wrap reveal">
+        <a href="#merch" class="zone-link">Rep the crew ↓</a>
       </div>
     </div>
   </section>
@@ -1217,10 +1353,10 @@
   <!-- ============================================================
        ZONE 4: MERCH
   ============================================================ -->
-  <section class="zone-merch">
+  <section class="zone-merch" id="merch">
     <div class="zone-inner">
       <h2 class="zone-header reveal">THE MERCH</h2>
-      <p class="zone-sub reveal">Rep the collective.</p>
+      <p class="zone-sub reveal">Rep the collective. DM us on <a href="https://instagram.com/nononsensephl" target="_blank" rel="noopener" style="color:var(--neon);border-bottom:1px solid var(--neon-dim);">Instagram</a> to order.</p>
 
       <div class="merch-grid reveal-children">
         <div class="merch-card">
@@ -1259,6 +1395,10 @@
           </div>
         </div>
       </div>
+
+      <div class="zone-link-wrap reveal">
+        <a class="cta-btn cta-outline" href="https://instagram.com/nononsensephl" target="_blank" rel="noopener">DM TO ORDER</a>
+      </div>
     </div>
   </section>
 
@@ -1280,7 +1420,7 @@
       <a class="footer-social" href="https://instagram.com/nononsensephl" target="_blank" rel="noopener" aria-label="Instagram">
         <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
       </a>
-      <a class="footer-social" href="https://facebook.com/nononsephl" target="_blank" rel="noopener" aria-label="Facebook">
+      <a class="footer-social" href="https://facebook.com/nononsensephl" target="_blank" rel="noopener" aria-label="Facebook">
         <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
       </a>
       <a class="footer-social" href="https://www.youtube.com/@NoNonsensePHL" target="_blank" rel="noopener" aria-label="YouTube">
@@ -1289,6 +1429,12 @@
     </div>
 
     <div class="footer-email"><a href="mailto:nononsensephl@gmail.com">nononsensephl@gmail.com</a></div>
+    <div style="margin-bottom:20px;">
+      <a href="#events" style="font-size:0.72rem;color:var(--text-dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;">↑ Back to top</a>
+    </div>
+    <div style="margin-bottom:20px;font-size:0.78rem;color:var(--text-secondary);">
+      Park Rave 005 is FREE — <a href="https://www.instagram.com/p/DWSLujlEf-s" target="_blank" rel="noopener" style="color:var(--neon);font-weight:600;text-decoration:none;">RSVP now</a>
+    </div>
     <div class="footer-copy">&copy; 2026 NO NONSENSE PHL. ALL RIGHTS RESERVED.</div>
   </footer>
 
@@ -1298,6 +1444,44 @@
   <script>
     (() => {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---- Sticky Nav ---- */
+      const siteNav = document.getElementById('siteNav');
+      const navLinks = document.querySelectorAll('.nav-link[data-nav]');
+      const sections = ['events', 'music', 'gear', 'merch'].map(id => document.getElementById(id)).filter(Boolean);
+      let navVisible = false;
+
+      // Show nav after scrolling past the hero
+      const heroEl = document.getElementById('events');
+      if (heroEl && siteNav) {
+        const navShowObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+              siteNav.classList.add('is-visible');
+              navVisible = true;
+            } else {
+              siteNav.classList.remove('is-visible');
+              navVisible = false;
+            }
+          });
+        }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
+        navShowObserver.observe(heroEl);
+      }
+
+      // Active section tracking
+      if (sections.length && navLinks.length) {
+        const sectionObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              navLinks.forEach(link => {
+                link.classList.toggle('is-active', link.dataset.nav === id);
+              });
+            }
+          });
+        }, { threshold: 0.3 });
+        sections.forEach(s => sectionObserver.observe(s));
+      }
 
       /* ---- Countdown + Event State ---- */
       const eventDate = new Date('2026-04-19T14:00:00-04:00').getTime();
